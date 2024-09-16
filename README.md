@@ -1,2 +1,2 @@
 # cadastro-de-pessoas
-Projeto desenvolvido em NodeJs, Docker, MySql, VueJd e Botstrap
+Projeto desenvolvido em NodeJs, Docker, MySql, VueJs e Botstrap
