@@ -8,27 +8,14 @@
             <form @submit.prevent="handleEdit">
               <div class="form-group">
                 <label for="name">Nome</label>
-                <input
-                  type="text"
-                  v-model="name"
-                  class="form-control"
-                  id="name"
-                  placeholder="Digite o nome"
-                  required
-                />
+                <input type="text" v-model="name" class="form-control" id="name" placeholder="Digite o nome" required />
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input
-                  type="email"
-                  v-model="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="Digite o email"
-                  required
-                />
+                <input type="email" v-model="email" class="form-control" id="email" placeholder="Digite o email"
+                  required />
               </div>
-              <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
+              <button type="submit" class="btn btn-primary btn-block" :disabled="loading" id="btn-confirm">
                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Salvar Alterações
               </button>
@@ -101,3 +88,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#btn-confirm {
+  margin-top: 10px;
+}
+</style>
