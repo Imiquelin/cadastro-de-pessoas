@@ -1,4 +1,14 @@
 services:
+  db:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - db_data:/var/lib/mysql
+
   backend:
     build: ./backend
     ports:
@@ -8,24 +18,14 @@ services:
     depends_on:
       - db
 
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: Cad@str0Pesso@
-      MYSQL_DATABASE: cadastro_pessoas
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-
   frontend:
-    build: ./frontend  # Caminho para o Dockerfile do front-end
+    build: ./frontend # Caminho para o Dockerfile do front-end
     ports:
-      - "8080:8080"  # Mapeia a porta do contêiner para a porta 8080
+      - "8080:8080" # Mapeia a porta do contêiner para a porta 8080
     volumes:
-      - ./frontend:/app  # Montar o diretório do projeto
+      - ./frontend:/app # Montar o diretório do projeto
     depends_on:
-      - backend  # Certifique-se de que o backend está rodando antes do front-end
+      - backend # Certifique-se de que o backend está rodando antes do front-end
 
 volumes:
   db_data:
