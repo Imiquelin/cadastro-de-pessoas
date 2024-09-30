@@ -1,10 +1,5 @@
 {
   "development": {
-    "username": "root",
-    "password": "Cad@str0Pesso@",
-    "database": "cadastro_pessoas",
-    "host": "db",
-    "port": 3306,
     "dialect": "mysql"
   }
 }
