@@ -41,7 +41,7 @@
                       <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Adicionar</button>
                     </div>
                     <div>
-                      <button class="btn btn-secondary btn-block" id="btn-confirm" @click.stop="goBack">Voltar</button>
+                      <button class="btn btn-secondary btn-block" id="btn-confirm" @click.stop="goBack">Voltar</button> 
                     </div>
                   </div>
                 </form>
