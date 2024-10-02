@@ -28,7 +28,7 @@
                           id="password" placeholder="Digite sua senha" required>
                       </div>
                       <div id="div-button-show-hide-icon">
-                        <button type="button" class="btn btn-outline-secondary" id="btn-show-hide"
+                        <button type="button" class="btn btn-outline-secondary btn-show-hide"
                           @click="togglePassword">
                           <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
                           <i v-else class="fa fa-eye"></i>
@@ -36,6 +36,23 @@
                       </div>
                     </div>
                   </div>
+                  <div class="form-group position-relative">
+                    <label for="password">Confirmar Senha</label>
+                    <div class="input-group" id="div-inpu-group">
+                      <div class="input-group-addon" id="div-password">
+                        <input :type="passwordVisible ? 'text' : 'password'" v-model="confirmPassword"
+                          class="form-control" id="confirmPassword" placeholder="Digite sua senha" required>
+                      </div>
+                      <div id="div-button-show-hide-icon">
+                        <button type="button" class="btn btn-outline-secondary btn-show-hide"
+                          @click="togglePassword">
+                          <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
+                          <i v-else class="fa fa-eye"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div> <!-- Mensagem de erro -->
                   <div id="div-buttons">
                     <div>
                       <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Adicionar</button>
@@ -45,6 +62,7 @@
                     </div>
                   </div>
                 </form>
+                <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
               </div>
             </div>
           </div>
@@ -72,13 +90,29 @@
                 placeholder="Digite sua senha" required>
             </div>
             <div id="div-button-show-hide-icon">
-              <button type="button" class="btn btn-outline-secondary" id="btn-show-hide" @click="togglePassword">
+              <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
                 <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
                 <i v-else class="fa fa-eye"></i>
               </button>
             </div>
           </div>
         </div>
+        <div class="form-group position-relative">
+          <label for="password">Confirmar Senha</label>
+          <div class="input-group" id="div-inpu-group">
+            <div class="input-group-addon" id="div-password">
+              <input :type="passwordVisible ? 'text' : 'password'" v-model="confirmPassword" class="form-control"
+                id="confirmPassword" placeholder="Digite sua senha" required>
+            </div>
+            <div id="div-button-show-hide-icon">
+              <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
+                <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
+                <i v-else class="fa fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div> <!-- Mensagem de erro -->
         <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Registrar-se</button>
       </form>
       <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
@@ -95,9 +129,11 @@ export default {
       name: '',
       email: '',
       password: '',
+      confirmPassword: '',
       message: '',
       passwordVisible: false,  // Controlar visibilidade da senha
-      isLoggedIn: false  // Indica se o usuário está logado
+      isLoggedIn: false,  // Indica se o usuário está logado
+      errorMessage: ''  // Armazenar a mensagem de erro
     };
   },
   created() {
@@ -111,6 +147,11 @@ export default {
   },
   methods: {
     async handleRegister() {
+      if (this.password !== this.confirmPassword) {  // Validação de senhas iguais no frontend
+        this.errorMessage = 'As senhas não coincidem!';
+        return;
+      }
+
       try {
         await createUser({
           name: this.name,
@@ -146,6 +187,11 @@ input[type=password]::-ms-clear {
   display: none;
 }
 
+input[type=confirmPassword]::-ms-reveal,
+input[type=confirmPassword]::-ms-clear {
+  display: none;
+}
+
 /* Estilos para alinhar o botão de espiar corretamente */
 .input-group .input-group-append button {
   border-left: none;
@@ -171,11 +217,11 @@ input[type=password]::-ms-clear {
   background: none;
 }
 
-#btn-show-hide {
+.btn-show-hide {
   border-color: transparent;
 }
 
-#btn-show-hide:hover {
+.btn-show-hide:hover {
   color: #6c757d;
   background-color: transparent;
   border-color: transparent;
