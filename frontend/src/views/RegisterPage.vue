@@ -28,11 +28,7 @@
                           id="password" placeholder="Digite sua senha" required>
                       </div>
                       <div id="div-button-show-hide-icon">
-<<<<<<< HEAD
                         <button type="button" class="btn btn-outline-secondary btn-show-hide"
-=======
-                        <button type="button" class="btn btn-outline-secondary" id="btn-show-hide"
->>>>>>> develop
                           @click="togglePassword">
                           <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
                           <i v-else class="fa fa-eye"></i>
@@ -40,7 +36,6 @@
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
                   <div class="form-group position-relative">
                     <label for="password">Confirmar Senha</label>
                     <div class="input-group" id="div-inpu-group">
@@ -58,8 +53,6 @@
                     </div>
                   </div>
                   <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div> <!-- Mensagem de erro -->
-=======
->>>>>>> develop
                   <div id="div-buttons">
                     <div>
                       <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Adicionar</button>
@@ -69,10 +62,7 @@
                     </div>
                   </div>
                 </form>
-<<<<<<< HEAD
                 <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
-=======
->>>>>>> develop
               </div>
             </div>
           </div>
@@ -100,18 +90,13 @@
                 placeholder="Digite sua senha" required>
             </div>
             <div id="div-button-show-hide-icon">
-<<<<<<< HEAD
               <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
-=======
-              <button type="button" class="btn btn-outline-secondary" id="btn-show-hide" @click="togglePassword">
->>>>>>> develop
                 <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
                 <i v-else class="fa fa-eye"></i>
               </button>
             </div>
           </div>
         </div>
-<<<<<<< HEAD
         <div class="form-group position-relative">
           <label for="password">Confirmar Senha</label>
           <div class="input-group" id="div-inpu-group">
@@ -128,8 +113,6 @@
           </div>
         </div>
         <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div> <!-- Mensagem de erro -->
-=======
->>>>>>> develop
         <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Registrar-se</button>
       </form>
       <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
@@ -146,17 +129,11 @@ export default {
       name: '',
       email: '',
       password: '',
-<<<<<<< HEAD
       confirmPassword: '',
       message: '',
       passwordVisible: false,  // Controlar visibilidade da senha
       isLoggedIn: false,  // Indica se o usuário está logado
       errorMessage: ''  // Armazenar a mensagem de erro
-=======
-      message: '',
-      passwordVisible: false,  // Controlar visibilidade da senha
-      isLoggedIn: false  // Indica se o usuário está logado
->>>>>>> develop
     };
   },
   created() {
@@ -170,14 +147,11 @@ export default {
   },
   methods: {
     async handleRegister() {
-<<<<<<< HEAD
       if (this.password !== this.confirmPassword) {  // Validação de senhas iguais no frontend
         this.errorMessage = 'As senhas não coincidem!';
         return;
       }
 
-=======
->>>>>>> develop
       try {
         await createUser({
           name: this.name,
@@ -213,14 +187,11 @@ input[type=password]::-ms-clear {
   display: none;
 }
 
-<<<<<<< HEAD
 input[type=confirmPassword]::-ms-reveal,
 input[type=confirmPassword]::-ms-clear {
   display: none;
 }
 
-=======
->>>>>>> develop
 /* Estilos para alinhar o botão de espiar corretamente */
 .input-group .input-group-append button {
   border-left: none;
@@ -246,19 +217,11 @@ input[type=confirmPassword]::-ms-clear {
   background: none;
 }
 
-<<<<<<< HEAD
 .btn-show-hide {
   border-color: transparent;
 }
 
 .btn-show-hide:hover {
-=======
-#btn-show-hide {
-  border-color: transparent;
-}
-
-#btn-show-hide:hover {
->>>>>>> develop
   color: #6c757d;
   background-color: transparent;
   border-color: transparent;
