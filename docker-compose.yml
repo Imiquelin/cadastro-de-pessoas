@@ -17,6 +17,8 @@ services:
       - ./backend:/app
     depends_on:
       - db
+    # command: >
+    #   sh -c "npx sequelize-cli db:migrate && npm start"  # Executa as migrações antes de iniciar o backend
 
   frontend:
     build: ./frontend # Caminho para o Dockerfile do front-end
