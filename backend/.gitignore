@@ -4,6 +4,10 @@ node_modules
 
 
 # local env files
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> develop
 .env.local
 .env.*.local
 
