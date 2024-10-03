@@ -27,20 +27,26 @@
       Não tem uma conta?
       <a href="#" @click.prevent="switchToRegister">Registrar-se aqui</a> <!-- Evento para alternar a aba -->
     </p>
-    <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
+    <!-- <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p> -->
+    <FlashMessage v-if="flashMessage" :message="flashMessage.message" :type="flashMessage.type" @clearFlashMessage="flashMessage = null" />
   </div>
 </template>
 
 <script>
+import FlashMessage from '@/components/FlashMessage.vue';
 import { login } from '@/services/api';
 
 export default {
+  components: {
+    FlashMessage
+  },
   data() {
     return {
       email: '',
       password: '',
       message: '',
-      passwordVisible: false  // Controlar visibilidade da senha
+      passwordVisible: false,  // Controlar visibilidade da senha
+      flashMessage: null,  // Armazenar a flash message
     };
   },
   methods: {
@@ -58,7 +64,8 @@ export default {
         // Redirecionar para a página de usuários
         this.$router.push('/users');
       } catch (error) {
-        this.message = 'Login falhou. Verifique suas credenciais.';
+        // this.message = 'Login falhou. Verifique suas credenciais.';
+        this.showFlashMessage('Login falhou. Verifique suas credenciais.', 'danger');
       }
     },
     switchToRegister() {
@@ -67,6 +74,9 @@ export default {
     ,
     togglePassword() {
       this.passwordVisible = !this.passwordVisible;  // Alterna entre mostrar e esconder a senha
+    },
+    showFlashMessage(message, type) {
+      this.flashMessage = { message, type };
     }
   }
 };
