@@ -5,7 +5,12 @@ const secretKey = 'mySecretKey';  // Use uma chave secreta forte em produção
 
 // Registrar um novo usuário
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword  } = req.body;
+
+  // Validação de senhas no backend
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: 'As senhas não coincidem' });
+  }
 
   try {
     // Verificar se o usuário já existe
