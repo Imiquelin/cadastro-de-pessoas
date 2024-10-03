@@ -15,7 +15,7 @@
             <!-- Botão de excluir desabilitado se o usuário logado for o mesmo -->
           </div>
           <div>
-            <button class="btn btn-danger btn-sm" @click="deleteUser(user.id)" :disabled="user.id === loggedInUserId">
+            <button class="btn btn-danger btn-sm" @click="confirmDelete(user)" :disabled="user.id === loggedInUserId">
               Excluir
             </button>
           </div>
@@ -23,17 +23,43 @@
       </li>
     </ul>
   </div>
+
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Tem certeza que deseja excluir o usuário <strong>{{ userToDelete?.name }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-danger" @click="deleteUser(userToDelete)" data-bs-dismiss="modal">
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
 import { getUsers, deleteUser } from '@/services/api';
 import { jwtDecode } from 'jwt-decode';  // Importa o jwt-decode para decodificar o token
+import { Modal } from 'bootstrap';
 
 export default {
   data() {
+    document.title = 'Gestão de Pessoas';
     return {
       users: [],
-      loggedInUserId: null  // Armazenar o ID do usuário logado
+      loggedInUserId: null,  // Armazenar o ID do usuário logado
+      userToDelete: null,  // Armazena o usuário que será excluído
     };
   },
   async created() {
@@ -54,15 +80,18 @@ export default {
     editUser(id) {
       this.$router.push(`/edit-user/${id}`);  // Direcionar para a página de edição com o ID do usuário
     },
+    confirmDelete(user) {
+      this.userToDelete = user;
+      const modal = new Modal(document.getElementById('confirmDeleteModal'));
+      modal.show();  // Exibe o modal de confirmação
+    },
     async deleteUser(id) {
-      if (confirm('Tem certeza que deseja excluir este usuário?')) {
         try {
           await deleteUser(id);
           this.users = this.users.filter(user => user.id !== id);  // Remover o usuário da lista
         } catch (error) {
           console.error('Erro ao excluir usuário:', error);
         }
-      }
     },
     addUser() {
       this.$router.push('/register');  // Redirecionar para a página de registro de usuário

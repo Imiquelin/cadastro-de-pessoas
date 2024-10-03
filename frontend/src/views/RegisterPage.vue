@@ -8,7 +8,7 @@
             <div class="card">
               <div class="card-body">
                 <!-- Conteúdo específico para quando o usuário está logado -->
-                <h3 class="card-title text-center">Adicionar Usuário</h3>
+                <h3 class="card-title text-center">Adicionar Pessoa</h3>
                 <form @submit.prevent="handleRegister">
                   <div class="form-group">
                     <label for="name">Nome</label>
@@ -28,8 +28,7 @@
                           id="password" placeholder="Digite sua senha" required>
                       </div>
                       <div id="div-button-show-hide-icon">
-                        <button type="button" class="btn btn-outline-secondary btn-show-hide"
-                          @click="togglePassword">
+                        <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
                           <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
                           <i v-else class="fa fa-eye"></i>
                         </button>
@@ -37,32 +36,31 @@
                     </div>
                   </div>
                   <div class="form-group position-relative">
-                    <label for="password">Confirmar Senha</label>
+                    <label for="confirmPassword">Confirmar Senha</label>
                     <div class="input-group" id="div-inpu-group">
                       <div class="input-group-addon" id="div-password">
                         <input :type="passwordVisible ? 'text' : 'password'" v-model="confirmPassword"
                           class="form-control" id="confirmPassword" placeholder="Digite sua senha" required>
                       </div>
                       <div id="div-button-show-hide-icon">
-                        <button type="button" class="btn btn-outline-secondary btn-show-hide"
-                          @click="togglePassword">
+                        <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
                           <i v-if="passwordVisible" class="fa fa-eye-slash"></i>
                           <i v-else class="fa fa-eye"></i>
                         </button>
                       </div>
                     </div>
                   </div>
-                  <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div> <!-- Mensagem de erro -->
                   <div id="div-buttons">
                     <div>
-                      <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Adicionar</button>
+                      <button type="submit" class="btn btn-primary btn-block">Adicionar</button>
                     </div>
                     <div>
-                      <button class="btn btn-secondary btn-block" id="btn-confirm" @click.stop="goBack">Voltar</button>
+                      <button class="btn btn-secondary btn-block" @click.stop="goBack">Voltar</button>
                     </div>
                   </div>
                 </form>
-                <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
+                <!-- <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p> -->
+                <FlashMessage v-if="flashMessage" :message="flashMessage.message" :type="flashMessage.type" @clearFlashMessage="flashMessage = null" />
               </div>
             </div>
           </div>
@@ -98,7 +96,7 @@
           </div>
         </div>
         <div class="form-group position-relative">
-          <label for="password">Confirmar Senha</label>
+          <label for="confirmPassword">Confirmar Senha</label>
           <div class="input-group" id="div-inpu-group">
             <div class="input-group-addon" id="div-password">
               <input :type="passwordVisible ? 'text' : 'password'" v-model="confirmPassword" class="form-control"
@@ -112,18 +110,22 @@
             </div>
           </div>
         </div>
-        <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div> <!-- Mensagem de erro -->
-        <button type="submit" class="btn btn-primary btn-block" id="btn-confirm">Registrar-se</button>
+        <button type="submit" class="btn btn-primary btn-block btn-confirm">Registrar-se</button>
       </form>
-      <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p>
+      <!-- <p v-if="message" class="alert alert-danger mt-3">{{ message }}</p> -->
+      <FlashMessage v-if="flashMessage" :message="flashMessage.message" :type="flashMessage.type" @clearFlashMessage="flashMessage = null" />
     </div>
   </div>
 </template>
 
 <script>
+import FlashMessage from '@/components/FlashMessage.vue';
 import { createUser } from '@/services/api';
 
 export default {
+  components: {
+    FlashMessage
+  },
   data() {
     return {
       name: '',
@@ -133,7 +135,7 @@ export default {
       message: '',
       passwordVisible: false,  // Controlar visibilidade da senha
       isLoggedIn: false,  // Indica se o usuário está logado
-      errorMessage: ''  // Armazenar a mensagem de erro
+      flashMessage: null,  // Armazenar a flash message
     };
   },
   created() {
@@ -148,7 +150,8 @@ export default {
   methods: {
     async handleRegister() {
       if (this.password !== this.confirmPassword) {  // Validação de senhas iguais no frontend
-        this.errorMessage = 'As senhas não coincidem!';
+        // this.message = 'As senhas não coincidem!';
+        this.showFlashMessage('As senhas não coincidem!', 'danger');
         return;
       }
 
@@ -156,8 +159,11 @@ export default {
         await createUser({
           name: this.name,
           email: this.email,
-          password: this.password
+          password: this.password,
+          confirmPassword: this.confirmPassword,
         });
+
+        this.showFlashMessage('Usuário registrado com sucesso!', 'success');
 
         // Redirecionar para a lista de usuários se estiver logado, ou para login após o registro
         if (this.isLoggedIn) {
@@ -166,16 +172,19 @@ export default {
           this.$router.push('/login');
         }
       } catch (error) {
-        this.message = 'Falha no registro. Tente novamente.';
+        // this.message = 'Falha no registro. Tente novamente.';
+        this.showFlashMessage('Falha no registro. Tente novamente.', 'danger');
       }
     }
     ,
     togglePassword() {
       this.passwordVisible = !this.passwordVisible;  // Alterna entre mostrar e esconder a senha
-    }
-    ,
+    },
     goBack() {
       this.$router.push('/users');
+    },
+    showFlashMessage(message, type) {
+      this.flashMessage = { message, type };
     }
   }
 };
@@ -197,7 +206,7 @@ input[type=confirmPassword]::-ms-clear {
   border-left: none;
 }
 
-#btn-confirm {
+.btn-confirm {
   margin-top: 10px;
 }
 
@@ -238,5 +247,6 @@ input[type=confirmPassword]::-ms-clear {
 
 #div-buttons div {
   margin-right: 10px;
+  margin-top: 10px;
 }
 </style>
