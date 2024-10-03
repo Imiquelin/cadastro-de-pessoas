@@ -15,24 +15,24 @@ const routes = [
   {
     path: '/auth',
     name: 'AuthTabs',
-    component: AuthTabs
+    component: AuthTabs,
   },
   {
     path: '/register',
     name: 'RegisterPage',
-    component: RegisterPage
+    component: RegisterPage,
   },
   {
     path: '/users',
     name: 'UsersPage',
     component: UsersPage,
-    meta: { requiresAuth: true }  // Esta rota requer autenticação
+    meta: { requiresAuth: true },  // Esta rota requer autenticação
   },
   {
     path: '/edit-user/:id',  // Rota para editar o usuário
     name: 'EditUserPage',
     component: EditUserPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: '/login',

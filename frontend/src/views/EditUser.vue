@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <h3 class="card-title text-center">Editar Usuário</h3>
+            <h3 class="card-title text-center">Editar Pessoa</h3>
             <form @submit.prevent="handleEdit">
               <div class="form-group">
                 <label for="name">Nome</label>
@@ -15,10 +15,23 @@
                 <input type="email" v-model="email" class="form-control" id="email" placeholder="Digite o email"
                   required />
               </div>
-              <button type="submit" class="btn btn-primary btn-block" :disabled="loading" id="btn-confirm">
-                <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Salvar Alterações
-              </button>
+              <div id="div-buttons">
+                <div>
+
+                  <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
+                    <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    Salvar Alterações
+                  </button>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-secondary btn-block" @click.stop="goBack">
+                    <span v-if="loading" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    Voltar
+                  </button>
+                </div>
+              </div>
             </form>
 
             <!-- Mostrar a mensagem de sucesso e redirecionamento -->
@@ -38,6 +51,7 @@ import { getUserById, updateUser } from '@/services/api';
 
 export default {
   data() {
+    document.title = 'Editar Pessoa';
     return {
       name: '',
       email: '',
@@ -84,6 +98,9 @@ export default {
           this.$router.push('/users');  // Redirecionar para a lista de usuários
         }
       }, 1000);  // Contagem regressiva a cada 1 segundo
+    },
+    goBack() {
+      this.$router.push('/users');
     }
   }
 };
@@ -91,6 +108,15 @@ export default {
 
 <style scoped>
 #btn-confirm {
+  margin-top: 10px;
+}
+
+#div-buttons {
+  display: inline-flex;
+}
+
+#div-buttons div {
+  margin-right: 10px;
   margin-top: 10px;
 }
 </style>

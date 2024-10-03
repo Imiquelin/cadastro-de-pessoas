@@ -17,15 +17,17 @@ services:
       - ./backend:/app
     depends_on:
       - db
+    # command: >
+    #   sh -c "npx sequelize-cli db:migrate && npm start"  # Executa as migrações antes de iniciar o backend
 
-  frontend:
-    build: ./frontend # Caminho para o Dockerfile do front-end
-    ports:
-      - "8080:8080" # Mapeia a porta do contêiner para a porta 8080
-    volumes:
-      - ./frontend:/app # Montar o diretório do projeto
-    depends_on:
-      - backend # Certifique-se de que o backend está rodando antes do front-end
+  # frontend:
+  #   build: ./frontend # Caminho para o Dockerfile do front-end
+  #   ports:
+  #     - "8080:8080" # Mapeia a porta do contêiner para a porta 8080
+  #   volumes:
+  #     - ./frontend:/app # Montar o diretório do projeto
+  #   depends_on:
+  #     - backend # Certifique-se de que o backend está rodando antes do front-end
 
 volumes:
   db_data:
