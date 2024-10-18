@@ -1,11 +1,16 @@
+require('dotenv').config(); // Para carregar as variáveis de ambiente
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const secretKey = 'mySecretKey';  // Use uma chave secreta forte em produção
+const secretKey = process.env.SECRET_KEY;  // Use uma chave secreta forte em produção
+const { sendEmail } = require('../middleware/sendGridMiddleware.js');
+const { sendVerificationEmail } = require('../middleware/nodeMailerMiddleware.js');
+const subject = 'Confirmação';
+const textbody = 'Confirme que é você!';
 
 // Registrar um novo usuário
 const register = async (req, res) => {
-  const { name, email, password, confirmPassword  } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
   // Validação de senhas no backend
   if (password !== confirmPassword) {
@@ -29,7 +34,41 @@ const register = async (req, res) => {
       password: hashedPassword
     });
 
+    // Gerar um token de verificação
+    const verificationToken = jwt.sign(
+      { userId: user.id, email: user.email },
+      secretKey,  // Uma chave secreta
+      { expiresIn: '1m' }  // Token expira em 1 dia
+    );
+
+    // Link de verificação
+    const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}`;
+
+    const to = email;
+    const html = `<p>Clique no link abaixo para verificar seu e-mail:</p><a href="${verificationLink}">Confirmar E-mail</a>`;
+
+    console.log(to);
+    console.log(subject);
+    console.log(textbody);
+    console.log(html);
+
+    // Dispara e-mail de confirmação via SendGrid
+    await sendEmail(
+      to, // Destinatário
+      subject, // Assunto
+      textbody, // Texto do e-mail
+      html // Corpo do e-mail em HTML
+    );
+    
+    // // Enviar o e-mail de verificação
+    // await sendVerificationEmail(
+    //   to, // Destinatário
+    //   subject, // Assunto
+    //   html // Corpo do e-mail em HTML
+    // );
+
     res.status(201).json({ message: 'Usuário registrado com sucesso!' });
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
