@@ -8,15 +8,22 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - db_data:/var/lib/mysql
+    command: --default-authentication-plugin=caching_sha2_password
 
   backend:
     build: ./backend
     ports:
-      - "3000:3000"
+      - ${BD_PORT}:${BD_PORT}
     volumes:
       - ./backend:/app
     depends_on:
       - db
+    environment:
+      DB_HOST: ${DB_HOST} 
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     # command: >
     #   sh -c "npx sequelize-cli db:migrate && npm start"  # Executa as migrações antes de iniciar o backend
 
