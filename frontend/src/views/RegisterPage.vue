@@ -25,7 +25,7 @@
                     <div class="input-group" id="div-inpu-group">
                       <div class="input-group-addon" id="div-password">
                         <input :type="passwordVisible ? 'text' : 'password'" v-model="password" class="form-control"
-                          id="password" placeholder="Digite sua senha" required>
+                          id="password" autocomplete="on" placeholder="Digite sua senha" required>
                       </div>
                       <div id="div-button-show-hide-icon">
                         <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
@@ -40,7 +40,7 @@
                     <div class="input-group" id="div-inpu-group">
                       <div class="input-group-addon" id="div-password">
                         <input :type="passwordVisible ? 'text' : 'password'" v-model="confirmPassword"
-                          class="form-control" id="confirmPassword" placeholder="Digite sua senha" required>
+                          class="form-control" id="confirmPassword" autocomplete="on" placeholder="Digite sua senha" required>
                       </div>
                       <div id="div-button-show-hide-icon">
                         <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">
@@ -84,7 +84,7 @@
           <label for="password">Senha</label>
           <div class="input-group" id="div-inpu-group">
             <div class="input-group-addon" id="div-password">
-              <input :type="passwordVisible ? 'text' : 'password'" v-model="password" class="form-control" id="password"
+              <input :type="passwordVisible ? 'text' : 'password'" v-model="password" class="form-control" id="password" autocomplete="on"
                 placeholder="Digite sua senha" required>
             </div>
             <div id="div-button-show-hide-icon">
@@ -100,7 +100,7 @@
           <div class="input-group" id="div-inpu-group">
             <div class="input-group-addon" id="div-password">
               <input :type="passwordVisible ? 'text' : 'password'" v-model="confirmPassword" class="form-control"
-                id="confirmPassword" placeholder="Digite sua senha" required>
+                id="confirmPassword" autocomplete="on" placeholder="Digite sua senha" required>
             </div>
             <div id="div-button-show-hide-icon">
               <button type="button" class="btn btn-outline-secondary btn-show-hide" @click="togglePassword">

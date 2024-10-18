@@ -50,7 +50,7 @@ const router = createRouter({
 // Verificar o token JWT antes de cada navegação
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('jwt');  // Pegar o token JWT do localStorage
-
+  
   // Se a rota exigir autenticação e não houver token, redireciona para login
   if (to.matched.some(record => record.meta.requiresAuth) && !token) {
     next('/auth');

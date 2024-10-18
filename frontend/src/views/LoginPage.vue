@@ -10,7 +10,7 @@
         <label for="password">Senha</label>
         <div class="input-group" id="div-inpu-group">
           <div class="input-group-addon" id="div-password">
-            <input :type="passwordVisible ? 'text' : 'password'" v-model="password" class="form-control" id="password"
+            <input :type="passwordVisible ? 'text' : 'password'" v-model="password" class="form-control" id="password" autocomplete="on"
               placeholder="Digite sua senha" required>
           </div>
           <div id="div-button-show-hide-icon">

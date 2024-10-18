@@ -24,7 +24,8 @@
     </ul>
   </div>
 
-  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -54,6 +55,7 @@ import { jwtDecode } from 'jwt-decode';  // Importa o jwt-decode para decodifica
 import { Modal } from 'bootstrap';
 
 export default {
+  emits: ['loginSuccess'],  // Declare o evento emitido
   data() {
     document.title = 'Gestão de Pessoas';
     return {
@@ -73,7 +75,12 @@ export default {
       const response = await getUsers();
       this.users = response.data;
     } catch (error) {
-      console.error('Erro ao buscar usuários:', error);
+      // Remover o token do localStorage
+      localStorage.removeItem('jwt');
+      this.isLoggedIn = false;
+      // Redirecionar para a página de login
+      this.$router.push('/auth');
+      // console.error('Erro ao buscar usuários:', error);
     }
   },
   methods: {
@@ -86,12 +93,12 @@ export default {
       modal.show();  // Exibe o modal de confirmação
     },
     async deleteUser(id) {
-        try {
-          await deleteUser(id);
-          this.users = this.users.filter(user => user.id !== id);  // Remover o usuário da lista
-        } catch (error) {
-          console.error('Erro ao excluir usuário:', error);
-        }
+      try {
+        await deleteUser(id);
+        this.users = this.users.filter(user => user.id !== id);  // Remover o usuário da lista
+      } catch (error) {
+        console.error('Erro ao excluir usuário:', error);
+      }
     },
     addUser() {
       this.$router.push('/register');  // Redirecionar para a página de registro de usuário
