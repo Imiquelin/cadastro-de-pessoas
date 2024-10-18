@@ -39,7 +39,7 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Cancelar
           </button>
-          <button type="button" class="btn btn-danger" @click="deleteUser(userToDelete)" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-danger" @click="deleteUser(userToDelete.id)" data-bs-dismiss="modal">
             Excluir
           </button>
         </div>
@@ -80,7 +80,7 @@ export default {
       this.isLoggedIn = false;
       // Redirecionar para a página de login
       this.$router.push('/auth');
-      // console.error('Erro ao buscar usuários:', error);
+      console.error('Erro ao buscar usuários:', error);
     }
   },
   methods: {
