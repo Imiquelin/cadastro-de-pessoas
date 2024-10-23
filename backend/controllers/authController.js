@@ -42,7 +42,7 @@ const register = async (req, res) => {
     );
 
     // Link de verificação
-    const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}`;
+    const verificationLink = `${process.env.DOMAIN}/verify-email?token=${verificationToken}`;
 
     const to = email;
     const html = `<p>Clique no link abaixo para verificar seu e-mail:</p><a href="${verificationLink}">Confirmar E-mail</a>`;
